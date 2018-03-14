@@ -1,0 +1,42 @@
+table {table-layout: fixed;}
+table td {
+        /*width:100%;  width값을 주어야 ...(말줄임)가 적용된다. */
+        overflow: hidden;
+        text-overflow:ellipsis; overflow: hidden; /*속성과 같이 써줘야 말줄임 기능이 적용된다.*/
+        white-space:nowrap; /*<td>보다 내용이 길경우 줄바꿈 되는것을 막아준다.*/
+}
+
+table .intro {
+    width: 50%;
+}
+
+.detail_page {
+    color: darkgray;
+}
+
+div.container-fluid {
+    width: 100%;
+    /*margin-top: 10px;*/
+    /*border: 1px solid gray;*/
+}
+
+nav.nav-sidebar {
+    float: left;
+    max-width: 30%;
+    margin: 0;
+    /*padding: 1em;*/
+}
+
+.navbar-default {
+    background-color: lightgray;
+}
+.container-fluid.page {
+    margin-top: 20px;
+}
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}

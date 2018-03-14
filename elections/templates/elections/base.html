@@ -1,0 +1,44 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel ="shortcut icon" type = "image/x-icon" href="{% static 'images/favicon.ico' %}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/poll.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home' %}">장고를 활용한 투표사이트</a>
+      <a class="navbar-brand" href="{% url 'home' %}">도움말</a>
+    </div>
+</nav>
+<div class="container-fluid page">
+    <nav class="nav-sidebar">
+        <ul>           
+            <li><a href="#" title="">출마지역</a></li>
+            <ul>
+                {% for area in areas %}
+                <li><a href="/areas/{{ area.name }}/">{{ area.name }}</a></li>                
+                {% endfor %}
+            </ul>
+            <li><a href="#" title="">투표결과</a></li>
+            <ul>
+                {% for area in areas %}
+                <li><a href="/areas/{{ area.name }}/results">{{ area.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </nav>
+    <article>
+    {% block content %}
+    {% endblock %}    
+    </article>
+</div>
+</body>
