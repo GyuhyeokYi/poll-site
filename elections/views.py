@@ -52,19 +52,46 @@ def areas(request, area):
 	area = Area.objects.get(name=area)
 	try:
 		# poll = Poll.objects.get(area=area, start_date__lte=today, # lte = less than equal, today >= start_date
-		# end_date__ gte=today) # gte : great than equal, today <= end_date
+		# end_date__gte=today) # gte : great than equal, today <= end_date
 		poll = Poll.objects.filter(area=area, start_date__lte=today, # lte = less than equal, today >= start_date
 		end_date__gte=today).order_by('start_date').first() # gte : great than equal, today <= end_date
 
 		polls = []
-		polls.append(poll)
-		candidates = Candidate.objects.filter(area=area)
+
+		if type(poll) == Poll:
+			polls.append(poll)
+			candidates = Candidate.objects.filter(area=area)
+		else:
+			polls = None
+			candidates = None
+
 		print('#######', polls)
 	except:
 		polls = None
 		candidates = None
+
 	context = {'candidates': candidates, 'area': area, 'polls': polls, 'areas':areas}
 	return render(request, 'elections/area.html', context)
+
+def area_list(request):
+	lists = []
+
+	areas = Area.objects.all().order_by('name')
+	for area in areas:
+		print("AREA",area.name)
+		data = {}
+		data['area_name'] = area.name
+		try:
+			candidates = Candidate.objects.filter(area=area).order_by('party_number')
+		except:
+			candidates = None
+		data['candidates'] = candidates
+		lists.append(data)
+
+	print("### lists ###", lists)
+	context = {'lists': lists, 'areas': areas}
+
+	return render(request, 'elections/area_list.html', context)
 
 def polls(request, poll_id):
 	poll = Poll.objects.get(pk=poll_id)
@@ -80,11 +107,25 @@ def polls(request, poll_id):
 		choice.save()
 
 	# return HttpResponse('finish')
-	return HttpResponseRedirect("/areas/{}/results".format(poll.area))
-	# return redirect("results", { 'area' : poll.area} )
+	# return HttpResponseRedirect("/areas/{}/results".format(poll.area))
+	return redirect("results", area=poll.area)
 
-def results(request, area):
+def poll_list(request):
+
+	lists = []
+
 	areas = Area.objects.all().order_by('name')
+
+	for area in areas:
+		data = poll_result(area)
+		lists.append(data)
+
+	context = {'lists': lists, 'areas': areas}
+
+	return render(request, 'elections/poll_list.html', context)
+
+def poll_result(area):
+	
 	area = Area.objects.get(name=area)
 	candidates = Candidate.objects.filter(area=area)
 	
@@ -115,6 +156,14 @@ def results(request, area):
 		poll_results.append(result)
 
 	context = {'candidates': candidates, 'area': area, 'poll_results': poll_results, 'areas':areas}
+
+	return context
+
+def results(request, area):	
+	context = poll_result(area)
+
+	areas = Area.objects.all().order_by('name')
+	context['areas'] = areas
 
 	return render(request, 'elections/result.html', context)
 

@@ -27,15 +27,15 @@ nav.nav-sidebar {
     /*padding: 1em;*/
 }
 
-.navbar-default {
+/*.navbar-default {
     background-color: lightgray;
-}
+}*/
 .container-fluid.page {
-    margin-top: 20px;
+    margin-top: 70px;
 }
 
 article {
-    margin-left: 170px;
+    margin-left: 200px;
     border-left: 1px solid gray;
     padding: 1em;
     overflow: hidden;

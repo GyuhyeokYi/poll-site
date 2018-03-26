@@ -1,0 +1,42 @@
+{% extends 'elections/base.html' %}
+{% block title %}
+선거구
+{% endblock %}
+{% block content %}
+<script>
+    // $('#PAGE1').removeClass('active')
+    // $('#PAGE2').addClass('active')
+    document.getElementById('PAGE1').classList.remove('active')
+    document.getElementById('PAGE2').classList.add('active')
+    document.getElementById('PAGE3').classList.remove('active')
+</script>
+{% if lists %}    
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td><B>지역</B></td>
+        <td><B>후보자명단</B></td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for data in lists %}
+    <tr>
+        <td><a href="{% url 'areas' area=data.area_name %}"><h3>{{ data.area_name }}</h3></a></td>
+        <td>
+            <table class="table">            
+            {% for candiate in data.candidates %}
+            <tr class="table-light">
+                <td>기호 {{ candiate.party_number }}번</td>
+                <td>{{ candiate.name }}</td>
+            </tr>
+            {% endfor %}            
+            </table>
+        </td>
+    </tr>
+    {% endfor %}       
+    </tbody>
+</table>
+{% else %}
+출마지역이 없습니다.
+{% endif %}
+{% endblock %}

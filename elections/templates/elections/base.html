@@ -6,39 +6,71 @@
     <link rel ="shortcut icon" type = "image/x-icon" href="{% static 'images/favicon.ico' %}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="{% static 'css/poll.css' %}">
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{% url 'home' %}">장고를 활용한 투표사이트</a>
-      <a class="navbar-brand" href="{% url 'home' %}">도움말</a>
+    <header>
+        <!--
+        <nav class="navbar navbar-default bg-success">
+            <div class="navbar-header container-fluid">
+                <a class="navbar-brand nav-link text-white " href="{% url 'home' %}">장고를 활용한 투표사이트</a>
+                <a class="navbar-brand nav-link text-white " href="{% url 'home' %}">도움말</a>
+            </div>
+        </nav>
+        -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="#">장고를 활용한 투표사이트<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li id='PAGE1' class="nav-item active">
+                        <a class="nav-link" href="{% url 'home' %}">선거후보</a>
+                    </li>
+                    <li id='PAGE2' class="nav-item">
+                        <a class="nav-link" href="{% url 'area_list' %}">선거지역</a>
+                    </li>
+                    <li id='PAGE3' class="nav-item">
+                        <a class="nav-link" href="{% url 'poll_list' %}">선거결과</a>
+                    </li>
+                </ul>
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>    
+    <div class="container-fluid page">
+    
+        <nav class="nav-sidebar">
+            <ul>           
+                <li class="nav-item"><a class="nav-link" href="#" title="">투표하기</a></li>
+                <ul>
+                    {% for area in areas %}
+                    <li class="nav-item"><a class="nav-link" href="/areas/{{ area.name }}/">{{ area.name }}</a></li>                
+                    {% endfor %}
+                </ul>
+                <!--
+                <li class="nav-item"><a class="nav-link" href="#" title="">투표결과</a></li>
+                <ul>
+                    {% for area in areas %}
+                    <li class="nav-item"><a class="nav-link" href="/areas/{{ area.name }}/results">{{ area.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                -->
+            </ul>
+        </nav>
+    
+        <article>
+        {% block content %}
+        {% endblock %}    
+        </article>
     </div>
-</nav>
-<div class="container-fluid page">
-    <nav class="nav-sidebar">
-        <ul>           
-            <li><a href="#" title="">출마지역</a></li>
-            <ul>
-                {% for area in areas %}
-                <li><a href="/areas/{{ area.name }}/">{{ area.name }}</a></li>                
-                {% endfor %}
-            </ul>
-            <li><a href="#" title="">투표결과</a></li>
-            <ul>
-                {% for area in areas %}
-                <li><a href="/areas/{{ area.name }}/results">{{ area.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </ul>
-    </nav>
-    <article>
-    {% block content %}
-    {% endblock %}    
-    </article>
-</div>
 </body>
